@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "anser-f3483": {
+      "hosting": {
+        "pin-manager": [
+          "anser-f3483"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "anser-f3483"
+  }
+}

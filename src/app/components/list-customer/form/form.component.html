@@ -1,0 +1,25 @@
+<div class="container">
+    <mat-form-field>
+        <input matInput placeholder="Name" name="Nombre" [(ngModel)]="this.databaseService.selected.Nombre" required [ngModelOptions]="{standalone: true}">
+
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Apellido" name="Apellido" [(ngModel)]="this.databaseService.selected.Apellido" required [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Telephone" name="telephone" [(ngModel)]="this.databaseService.selected.telephone" required [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Email" name="email" [(ngModel)]="this.databaseService.selected.email">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Age" name="Age" [(ngModel)]="this.databaseService.selected.age" required [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Comments" name="Comments" [(ngModel)]="this.databaseService.selected.comments">
+    </mat-form-field>
+    <button mat-flat-button color="light" style="color:rgb(0, 0, 0); background-color: rgb(7, 209, 245);" (click)="onSaveForm()">
+        <mat-icon>save</mat-icon>Guardar
+    </button>
+</div>

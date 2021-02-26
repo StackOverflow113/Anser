@@ -1,0 +1,70 @@
+<h2 mat-dialog-title *ngIf="isNewEvent">Nuevo registro</h2>
+<h2 mat-dialog-title *ngIf="!isNewEvent">Cita #{{ event.id }}</h2>
+
+<mat-dialog-content class="mat-typography">
+    <form #eventForm="ngForm">
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="Nombre" type="text" [value]="event.firstName" name="firstName" [(ngModel)]="event.firstName" required [ngModelOptions]="{standalone: true}">
+                    <mat-error *ngIf="eventForm.invalid">
+                        Nombre <strong>requerido</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="Apellido" type="text" [value]="event.lastName" name="lastName" [(ngModel)]="event.lastName" required [ngModelOptions]="{standalone: true}">
+                    <mat-error *ngIf="eventForm.invalid">
+                        Apellido <strong>requerido</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <input matInput placeholder="Telefono" type="tel" [value]="event.telephone" name="telephone" [(ngModel)]="event.telephone" required [ngModelOptions]="{standalone: true}">
+                    <mat-error *ngIf="eventForm.invalid">
+                        Telefono <strong>requerido</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <input matInput type="email" placeholder="Correo (opcional)" [value]="event.email" name="email" [(ngModel)]="event.email" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <textarea matInput placeholder="Comentarios" rows="4" cols="4" [value]="event.comments" name="comments" [(ngModel)]="event.comments" [ngModelOptions]="{standalone: true}"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <input matInput type="date" placeholder="Fecha:" [value]="event.date" name="date" [(ngModel)]="event.date" readonly [ngModelOptions]="{standalone: true}">
+
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <input matInput type="datetime" placeholder="Hora:" [format]="24" [value]="event.time" name="time" [(ngModel)]="event.time" [ngxTimepicker]="default" required [ngModelOptions]="{standalone: true}">
+                    <ngx-material-timepicker #default [(ngModel)]="event.time"></ngx-material-timepicker>
+                    <mat-error *ngIf="eventForm.invalid">
+                        Hora <strong>requerida</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cerrar</button>
+    <button mat-raised-button style="color:rgb(0, 0, 0); background-color: rgb(7, 209, 245);" (click)="onSubmit(eventForm)">Guardar</button>
+    <button mat-raised-button style="color:rgb(0, 0, 0); background-color: rgb(7, 209, 245);" (click)="onDelete(event.id)">Eliminar</button>
+</mat-dialog-actions>

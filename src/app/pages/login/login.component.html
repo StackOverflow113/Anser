@@ -1,0 +1,23 @@
+<mat-card>
+    <mat-card-content>
+        <div class="fadeIn first p-2">
+            <img src="assets/img/logo.jpg" id="icon" alt="User Icon" />
+        </div>
+        <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+            <h2 class="mt-1">Log In</h2>
+            <mat-form-field class="full-width-input">
+                <input matInput placeholder="Correo" name="email" [(ngModel)]="user.email" required>
+                <mat-error *ngIf="loginForm.invalid">
+                    Please provide a valid email address
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+                <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="user.password" required>
+                <mat-error *ngIf="loginForm.invalid">
+                    Please provide a valid password
+                </mat-error>
+            </mat-form-field>
+            <button mat-raised-button color="light" type="submit">Login</button>
+        </form>
+    </mat-card-content>
+</mat-card>
