@@ -28,7 +28,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormComponent } from './components/list-customer/form/form.component';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
 
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
@@ -45,7 +45,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     DialogEventComponent,
     LoginComponent,
     ListCustomerComponent,
-    FormComponent
+    FormComponent,
+    UsuariosComponent
     
   ],
   imports: [

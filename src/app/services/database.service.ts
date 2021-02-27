@@ -5,6 +5,7 @@ import { observable, Observable } from 'rxjs';
 import { EventModel } from '../models/event.model';
 import { CustomerI } from '../models/customer.mode';
 import { NgForm } from '@angular/forms';
+import { Users } from '../models/usuarios.model';
 
 
 export interface CustomerId extends CustomerI{id: string; }
@@ -14,11 +15,18 @@ export interface CustomerId extends CustomerI{id: string; }
 })
 
 export class DatabaseService {
-
+  //CALENDAR COLLECTION
   private eventos: AngularFirestoreCollection<EventModel>;
+
+  //PACIENTES COLLECTION
   private customerCollection : AngularFirestoreCollection<CustomerI>;
   customers:Observable<CustomerI[]>;
 
+  //USUARIOS COLLECTION
+  private usersCollection : AngularFirestoreCollection<Users>;  
+  users:Observable<Users[]>;
+
+  //SELECTED DE PACIENTES
   public selected ={
     id:null,
     Nombre:'',
@@ -36,7 +44,8 @@ export class DatabaseService {
 
   constructor(private database: AngularFirestore) {
     this.eventos = database.collection<EventModel>('events');
-    
+
+    //PACIENTES PIPE
     this.customerCollection=database.collection<CustomerI>('customer');
     this.customers=this.customerCollection.snapshotChanges().pipe(
       map(actions => actions.map(a =>{
@@ -45,6 +54,17 @@ export class DatabaseService {
         return {id , ...b};
       }))
     )
+
+    //USUARIOS PIPE
+    this.usersCollection=database.collection<Users>('usuarios');
+    this.users=this.usersCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a =>{
+        const b = a.payload.doc.data() as Users;
+        const id = a.payload.doc.id;
+        return {id , ...b};
+      }))
+    )
+
 
   }
   //get out buddy
@@ -112,6 +132,10 @@ export class DatabaseService {
   addPacient(customer: CustomerI){
     return this.customerCollection.add(customer);
   } 
+  //USUARIOS
+  getAllUsers(){
+    return this.users;
+  }
 
 
 }

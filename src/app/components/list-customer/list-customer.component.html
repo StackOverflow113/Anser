@@ -3,9 +3,10 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="..." #input>
 </mat-form-field>
 
-<table mat-table [dataSource]="dataSource" MatSor class="mat-elevation-z8 MatSort">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="new">
-        <th mat-header-cell *matHeaderCellDef> <button mat-flat-button style="color:rgb(0, 5, 5); background-color: rgb(7, 209, 245);" (click)="onEdit(null)">            
+        <th mat-header-cell *matHeaderCellDef>
+            <button mat-flat-button style="color:rgb(0, 5, 5); background-color: rgb(7, 209, 245);" (click)="onEdit(null)">            
             <mat-icon>group_add</mat-icon>
         </button>&nbsp;
         </th>
