@@ -9,6 +9,7 @@ import { element } from 'protractor';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { FormComponent } from './form/form.component';
 import { NgForm } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-customer',
@@ -20,8 +21,8 @@ export class ListCustomerComponent implements OnInit  {
   dataSource = new MatTableDataSource();
  
 
-  constructor(private databaseService: DatabaseService,private dialog: MatDialog 
-    
+  constructor(private databaseService: DatabaseService,private dialog: MatDialog,
+              private snackBar: MatSnackBar    
     ) { }
 
   ngOnInit(): void {    
@@ -40,12 +41,26 @@ export class ListCustomerComponent implements OnInit  {
     }
     
   }
-  DeletePatient(id: string){
+  // DeletePatient(id: string){
+  //   const confirmacion = confirm('Esta seguro de eliminar este paciente?')
+  //   if(confirmacion){
+  //     this.databaseService.deletePaciente(id);
+  //   }    
+  // }
+  public async DeletePatient(event: any) { 
+    console.log(event);
+    const id = event.id;  
     const confirmacion = confirm('Esta seguro de eliminar este paciente?')
     if(confirmacion){
-      this.databaseService.deletePaciente(id);
-    }    
-  }
+      try {
+        await this.databaseService.deletePaciente(id);
+        this.dialog.closeAll(); 
+        this.openSnackBar('El paciente se elimino correctamente','OK');      
+      } catch(error) {
+        console.log(error);
+      }
+    }     
+   } 
 
   openModal():void{
     const dialogConfig = new MatDialogConfig();
@@ -63,6 +78,11 @@ export class ListCustomerComponent implements OnInit  {
     this.databaseService.selected.age='';
     this.databaseService.selected.comments='';
     this.databaseService.selected.id=null;
+  } 
+  private openSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 2000
+    });
   } 
   
 }
