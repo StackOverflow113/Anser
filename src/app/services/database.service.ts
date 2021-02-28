@@ -8,7 +8,7 @@ import { NgForm } from '@angular/forms';
 import { Users } from '../models/usuarios.model';
 
 
-export interface CustomerId extends CustomerI{id: string; }
+export interface CustomerId extends CustomerI { id: string; }
 
 @Injectable({
   providedIn: 'root'
@@ -19,53 +19,47 @@ export class DatabaseService {
   private eventos: AngularFirestoreCollection<EventModel>;
 
   //PACIENTES COLLECTION
-  private customerCollection : AngularFirestoreCollection<CustomerI>;
-  customers:Observable<CustomerI[]>;
+  private customerCollection: AngularFirestoreCollection<CustomerI>;
+  customers: Observable<CustomerI[]>;
 
   //USUARIOS COLLECTION
-  private usersCollection : AngularFirestoreCollection<Users>;  
-  users:Observable<Users[]>;
+  private usersCollection: AngularFirestoreCollection<Users>;
+  users: Observable<Users[]>;
 
   //SELECTED DE PACIENTES
-  public selected ={
-    id:null,
-    Nombre:'',
-    Apellido:'',
-    telephone:'',
-    email:'',
-    age:'',
-    comments:'',
+  public selected = {
+    id: null,
+    Nombre: '',
+    Apellido: '',
+    telephone: '',
+    email: '',
+    age: '',
+    comments: '',
   }
-  
+
   collection<T>(arg0: string): AngularFirestoreCollection<import("../models/event.model").EventModel> {
     throw new Error('Method not implemented.');
-
   }
-
   constructor(private database: AngularFirestore) {
     this.eventos = database.collection<EventModel>('events');
-
     //PACIENTES PIPE
-    this.customerCollection=database.collection<CustomerI>('customer');
-    this.customers=this.customerCollection.snapshotChanges().pipe(
-      map(actions => actions.map(a =>{
+    this.customerCollection = database.collection<CustomerI>('customer');
+    this.customers = this.customerCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
         const b = a.payload.doc.data() as CustomerI;
         const id = a.payload.doc.id;
-        return {id , ...b};
+        return { id, ...b };
       }))
     )
-
     //USUARIOS PIPE
-    this.usersCollection=database.collection<Users>('usuarios');
-    this.users=this.usersCollection.snapshotChanges().pipe(
-      map(actions => actions.map(a =>{
+    this.usersCollection = database.collection<Users>('usuarios');
+    this.users = this.usersCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
         const b = a.payload.doc.data() as Users;
         const id = a.payload.doc.id;
-        return {id , ...b};
+        return { id, ...b };
       }))
     )
-
-
   }
   //get out buddy
   public setEvent(event: any): Promise<void> {
@@ -73,28 +67,11 @@ export class DatabaseService {
     return this.database.collection('events').doc(event.id).set(event);
   }
 
-  public getEvents(): Observable<any[]> {
-    const eventsC: any[] = [];
-    const registers: any[] = [];
-    return this.database.collection('events').snapshotChanges().pipe(
-      map((docs: any) => {
-        docs.map((doc: any) => {
-          const event = doc.payload.doc.data();
-          const eventCalendar = {
-            title: event.firstName,
-            date: event.date + 'T' + event.time,
-            id: event.id
-          };
-          eventsC.push(eventCalendar);
-          registers.push(event);
-        });
-        console.log(registers);
-        sessionStorage.setItem('events', JSON.stringify(registers));
-        return eventsC;
-      })
-    );
+  public async getEvents(): Promise<any[]> {
+    const events: any = await this.database.collection('events').valueChanges().pipe(first()).toPromise();
+    return events;
   }
-
+  //LEL
   public setUser(user: any): Promise<void> {
     return this.database.collection('users').doc(user.id).set(user);
   }
@@ -108,32 +85,25 @@ export class DatabaseService {
   }
 
   //,opo
-  onDelete(id: string): Promise<void> {
-    return new Promise(async (resolve, rejects)=> {
-      try{
-        const result = this.eventos.doc(id).delete();
-        alert("CITA ELIMINADA CORRECTAMENTE");
-      }catch(err) {
-        rejects(err.message);
-      }
-    });
+  onDelete(id: string) {
+    return this.eventos.doc(id).delete();
   }
   //PACIENTES
-  getAllPacients(){
+  getAllPacients() {
     return this.customers;
   }
-  editPacient(customer: CustomerI){    
-     return this.customerCollection.doc(customer.id).update(customer);
+  editPacient(customer: CustomerI) {
+    return this.customerCollection.doc(customer.id).update(customer);
   }
 
-  deletePaciente(id: string){
+  deletePaciente(id: string) {
     return this.customerCollection.doc(id).delete();
   }
-  addPacient(customer: CustomerI){
+  addPacient(customer: CustomerI) {
     return this.customerCollection.add(customer);
-  } 
+  }
   //USUARIOS
-  getAllUsers(){
+  getAllUsers() {
     return this.users;
   }
 

@@ -16,7 +16,11 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService) {}
 
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigateByUrl('home').then(() => location.reload());
+    }
+  }
 
   public async onSubmit(form: NgForm): Promise<void> {
      if (form.invalid) { return; }

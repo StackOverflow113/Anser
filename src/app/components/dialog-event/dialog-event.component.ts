@@ -55,9 +55,9 @@ export class DialogEventComponent implements OnInit {
 
     console.log(this.event);
 
-    this.database.setEvent(this.event).then(() => {
-      this.dialog.closeAll();
-      this.openSnackBar('El registro se ha guardado', 'OK');
+    this.database.setEvent(this.event).then(() => {     
+      this.dialog.closeAll(); 
+      this.openSnackBar('El registro se ha guardado', 'OK');      
     });
   }
 
@@ -65,22 +65,17 @@ export class DialogEventComponent implements OnInit {
     this.snackBar.open(message, action, {
       duration: 2000
     });
-  } 
-
-  
-   async onDelete(id: any): Promise<void> {
-     const confirmacion = confirm('Esta seguro de eliminar este paciente?')
-     if(confirmacion){
-     try {
-       await this.database.onDelete(id);        
-       } catch (err) {
-         console.log(err);
-       }
-     }
-   }  
- 
-
-    
-   
+  }   
+  public async onDelete(event: any) { 
+    console.log(event);
+    const id = event.id;
+    try {
+      await this.database.onDelete(id);
+      this.dialog.closeAll(); 
+      this.openSnackBar('La cita se elimino correctamente', 'OK');      
+    } catch(error) {
+      console.log(error);
+    }
+   }      
 }
 
