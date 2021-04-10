@@ -31,8 +31,6 @@ export class HomeComponent implements OnInit {
 
   private getEvents(): void {
     this.database.getEvents().then((events: any) => {
-      console.log('PUTO');
-      console.log(events);
       this.calendarOptions.events = this.init(events);
       this.ready = true;
     });
@@ -44,7 +42,7 @@ export class HomeComponent implements OnInit {
     for (const doc of documents) {
       const event = doc;
       const eventCalendar = {
-        title: event.firstName,
+        title: event.firstName + " " + event.lastName,
         date: event.date + 'T' + event.time,
         id: event.id
       };

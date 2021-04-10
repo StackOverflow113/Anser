@@ -5,7 +5,7 @@ import { DatabaseService } from '../../services/database.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EventModel } from '../../models/event.model';
 import { Observable } from 'rxjs';
-import{AngularFirestoreCollection, AngularFirestoreDocument} from '@angular/fire/firestore';
+import { AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-dialog-event',
@@ -15,10 +15,10 @@ import{AngularFirestoreCollection, AngularFirestoreDocument} from '@angular/fire
 export class DialogEventComponent implements OnInit {
 
   event = {} as EventModel;
-  isNewEvent = false; 
+  isNewEvent = false;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog,
-              private database: DatabaseService, private snackBar: MatSnackBar,
-              ) {
+    private database: DatabaseService, private snackBar: MatSnackBar,
+  ) {
     console.log(data);
     if (data.id) {
       if (sessionStorage.getItem('events')) {
@@ -29,11 +29,11 @@ export class DialogEventComponent implements OnInit {
     } else {
       this.event.date = data.date;
       this.isNewEvent = true;
-    }    
+    }
   }
 
   ngOnInit(): void {
-   
+
   }
 
   public onSubmit(form: NgForm): void {
@@ -45,7 +45,7 @@ export class DialogEventComponent implements OnInit {
 
     this.event.firstName = this.event.firstName.trim();
     this.event.lastName = this.event.lastName.trim();
-    this.event.telephone = this.event.telephone.trim();       
+    this.event.telephone = this.event.telephone.trim();
     if (this.event.email) {
       this.event.email = this.event.email.trim();
     }
@@ -55,9 +55,9 @@ export class DialogEventComponent implements OnInit {
 
     console.log(this.event);
 
-    this.database.setEvent(this.event).then(() => {     
-      this.dialog.closeAll(); 
-      this.openSnackBar('El registro se ha guardado', 'OK');      
+    this.database.setEvent(this.event).then(() => {
+      this.dialog.closeAll();
+      this.openSnackBar('El registro se ha guardado', 'OK');
     });
   }
 
@@ -65,17 +65,17 @@ export class DialogEventComponent implements OnInit {
     this.snackBar.open(message, action, {
       duration: 2000
     });
-  }   
-  public async onDelete(event: any) { 
+  }
+  public async onDelete(event: any) {
     console.log(event);
     const id = event.id;
     try {
       await this.database.onDelete(id);
-      this.dialog.closeAll(); 
-      this.openSnackBar('La cita se elimino correctamente', 'OK');      
-    } catch(error) {
+      this.dialog.closeAll();
+      this.openSnackBar('La cita se elimino correctamente', 'OK');
+    } catch (error) {
       console.log(error);
     }
-   }      
+  }
 }
 

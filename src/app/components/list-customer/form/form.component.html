@@ -6,6 +6,9 @@
 
     <mat-form-field>
         <input matInput placeholder="Apellido" name="Apellido" [(ngModel)]="this.databaseService.selected.Apellido" required [ngModelOptions]="{standalone: true}">
+        <mat-error *ngIf="null">
+            Nombre <strong>requerido</strong>
+        </mat-error>
     </mat-form-field>
     <mat-form-field>
         <input matInput placeholder="Telephone" name="telephone" [(ngModel)]="this.databaseService.selected.telephone" required [ngModelOptions]="{standalone: true}">
